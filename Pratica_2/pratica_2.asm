@@ -6,46 +6,38 @@ section .text
     global _start
 
 _start:
-    mov rcx, 12
-    mov rax, 0
+    mov rcx, 12 ;Quantidade de bytes que serão iterados no array
+    mov rax, 0 ;Armazena o valor de rdx com os bytes que serão iterados
     mov rdi, 1
     mov rdx, 0
    
 .loop:
-    add rax, rdx
-    lea rsi, [array + rax]
+    add rax, rdx 
+    lea rsi, [array + rax] ;Rsi obtém o endereço do primeiro elemento do array
 
     sub rcx, 3
     add rdx, 3
 
+    ;Coloca o valor de rax e rcx no topo da pilha
     push rax
-    mov rax, 1
-
     push rcx
 
+    mov rax, 1 ;Código da syscall write
     syscall
 
-    ; push rdx
-    ; call .linha
-    ; pop rdx
-
-    pop rcx
+    ;Tira o valor de rcx e rax da pilha
+    pop rcx 
     pop rax
 
-    cmp rcx, 0
+    ;Se as interações não acabaram continua no loop
+    cmp rcx, 0 
     jnz .loop
 
+    ;Finaliza o programa
     mov rax, 60
     xor rdi, rdi
     syscall
 
-; .linha:
-;     mov rdx, 1
-;     mov rax, 1
-;     mov rsi, pular_linha
-;     syscall
-    
-    
 
 
 
