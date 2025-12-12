@@ -1,5 +1,5 @@
 section .data
-    array: db '00', 0x0a,'03', 0x0a,'06', 0x0a,'09', '' 0x0a
+    array: db '00', 0x0a,'03', 0x0a,'06', 0x0a,'09', 0x0a, ''
     tamanho_array: equ $- array
 
     mensagem_escrita: db "Escreva 3 caracteres: "
@@ -10,50 +10,43 @@ section .text
 
 _start:
     mov rcx, tamanho_array ;Quantidade de bytes que serão iterados no array
-    mov rax, 0 ;Armazena o valor de rdx com os bytes que serão iterados
-    mov rdi, 1
-    mov rdx, 0
+    mov rbx, 0
    
 .loop:
-    add rax, rdx 
-    lea rsi, [array + rax] ;Rsi obtém o endereço do primeiro elemento do array + rax
+    lea rsi, [array + rbx] ;Rsi obtém o endereço do primeiro elemento do array + rbx
 
     sub rcx, 3
-    add rdx, 3
+    add rbx, 3
 
-    ;Coloca o valor de rax e rcx no topo da pilha
-    push rax
+    ;Coloca o valor de rbx e rcx no topo da pilha
+    push rbx
     push rcx
 
     mov rax, 1 ;Código da syscall write
+    mov rdx, 3
+    mov rdi, 1
     syscall
 
-    ;Tira o valor de rcx e rax da pilha
+    ;Tira o valor de rcx e rbx da pilha
     pop rcx 
-    pop rax
+    pop rbx
 
-    cmp rdx, 12
+    cmp rbx, 12
     je .escrever_no_array
 
     ;Se as iterações não acabaram continua no loop
     cmp rcx, 0 
     jnz .loop
 
-    ;Finaliza o programa
-    mov rax, 60
-    xor rdi, rdi
-    syscall
-
 .escrever_no_array:
-    push rax
+    push rbx
     push rcx
-    push rdx
     push rsi
 
     mov rax, 1 
     mov rdi, 1
-    mov rdx, tamanho_escrita
     mov rsi, mensagem_escrita
+    mov rdx, tamanho_escrita
     syscall
 
     mov rax, 0 ;Código syscall read
@@ -62,20 +55,19 @@ _start:
     mov rdx, 2
     syscall
 
+    mov rax, 1
+    mov rdi, 1
+    mov rdx, 2
+    syscall
+
     pop rsi
-    pop rdx
     pop rcx
-    pop rax
+    pop rbx
 
-    call .loop
-
-
-    
-    
-
-
-
-
+    ;Finaliza o programa
+    mov rax, 60
+    xor rdi, rdi
+    syscall
 
 
 
