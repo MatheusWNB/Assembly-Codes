@@ -22,7 +22,8 @@ loop:
     sub rcx, 4
     sar rbx, cl
     and rbx, 0xf
-    lea rsi, [codes + rbx]
+    lea rsi, [rel codes]
+    add rsi, rbx
 
     push rcx
 
@@ -38,31 +39,31 @@ loop:
     jnz loop
 
     call new_line_
-    ret _start
+    ret 
 
 _start:
     mov rcx, 64
-    mov rbx, [var]
+    mov rbx, [rel var]
     call loop
 
     mov rcx, 64
-    mov byte[var], 1
-    mov rbx, [var]
+    mov byte[rel var], 1
+    mov rbx, [rel var]
     call loop
 
     mov rcx, 64
-    mov word[var], 5
-    mov rbx, [var]
+    mov word[rel var], 5
+    mov rbx, [rel var]
     call loop
 
     mov rcx, 64
-    mov dword[var], 0xa
-    mov rbx, [var]
+    mov dword[rel var], 0xa
+    mov rbx, [rel var]
     call loop
 
     mov rcx, 64
-    mov qword[var], 0xf
-    mov rbx, [var]
+    mov qword[rel var], 0xf
+    mov rbx, [rel var]
     call loop
 
     mov rax, 60
