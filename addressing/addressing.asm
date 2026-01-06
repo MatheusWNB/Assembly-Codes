@@ -1,3 +1,4 @@
+%include "utils.asm"
 section .data
     codes: db '0123456789abcdef'
     var: dq -1
@@ -8,12 +9,7 @@ section .text
     global _start
 
 new_line_:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, new_line
-    mov rdx, 1
-    syscall
-
+    sys_print 1, new_line
     ret
 
 loop:
@@ -27,10 +23,7 @@ loop:
 
     push rcx
 
-    mov rax, 1
-    mov rdi, 1
-    mov rdx, 1
-    syscall
+    sys_print 1, rsi
 
     pop rcx
     pop rbx
@@ -65,7 +58,5 @@ _start:
     mov qword[rel var], 0xf
     mov rbx, [rel var]
     call loop
-
-    mov rax, 60
-    mov rdi, 0
-    syscall
+    
+    exit_code
