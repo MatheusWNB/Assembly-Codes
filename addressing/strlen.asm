@@ -1,3 +1,5 @@
+%include "utils.asm"
+
 section .data
     string: db "Matheus", 0
 
@@ -13,18 +15,11 @@ loop:
 
     lea rsi, [rdi + rax]
 
-    push rax
-    push rcx
-    push rdi
+    push_registers rax, rcx, rdi
 
-    mov rax, 1
-    mov rdi, 1
-    mov rdx, 1
-    syscall
+    sys_print 1, rsi
 
-    pop rdi
-    pop rcx
-    pop rax
+    pop_registers rdi, rcx, rax
 
     inc rax
 
