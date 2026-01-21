@@ -1,5 +1,9 @@
 ;Useful codes that will be used many times in programs.
 
+section .text
+    global .loop
+    global .loop_strlen
+
 ;Exit program
 %macro exit_code 0
     mov rax, 60
@@ -14,6 +18,7 @@
     mov rdx, %1
     mov rsi, %2
     syscall
+
 %endmacro
 
 %macro push_registers 3
@@ -28,10 +33,10 @@
     pop %3
 %endmacro
 
-section .text
-    global loop_1
+end:
+    ret
 
-loop_1:
+loop_strlen:
     cmp byte[rdi + rax], 0
     je end
 
@@ -44,6 +49,37 @@ loop_1:
     pop_registers rdi, rcx, rax
 
     inc rax
-    jmp loop_1
+
+    jmp loop_strlen
+
+loop:
+    push rax
+    sub rcx, 4
+    sar rax, cl
+    and rax, 0xf
+
+    push rsi
+    lea rsi, [rsi + rax]
+
+    push rcx
+
+    mov rax, 1
+    mov rdi, 1
+
+    sys_print 1, rsi
+
+    pop rcx
+    pop rsi
+    pop rax
+
+    test rcx, rcx
+    jnz loop
+
+    jmp end
+
+    
+
+
+
 
 

@@ -1,3 +1,5 @@
+%include "utils.asm"
+
 ;Exercício para tentar compreender o endianness
 section .data
     codes_hex: db '0123456789abcdef'
@@ -10,47 +12,22 @@ section .data
 section .text
     global _start:
 
-print:
-    push rbx
-    sub rcx, 4
-    sar rbx, cl
-    and rbx, 0xf
-
-    lea rsi, [codes_hex + rbx]
-
-    pop rbx
-    push rcx
-
-    mov rax, 1
-    mov rdi, 1
-    mov rdx, 1
-    syscall
-
-    pop rcx
-
-    test rcx, rcx
-    jnz print
-
-    ret
-
 _start:
-    mov rbx, [demo1]
+    mov rax, [rel demo1]
     mov rcx, 64
-    call print
+    lea rsi, [rel codes_hex]
+    call loop
 
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, new_line
-    mov rdx, 1
-    syscall
+    push rsi
+    sys_print 1, new_line
 
-    mov rbx, [demo2]
+    mov rax, [rel demo2]
     mov rcx, 64
-    call print
+    pop rsi
 
-    mov rax, 60
-    xor rdi, rdi
-    syscall
+    call loop
+
+    exit_code
 
 
 
