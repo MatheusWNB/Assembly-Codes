@@ -1,6 +1,6 @@
 %include "macros.asm"
 section .data
-    array: db "", "", "",
+    array: db ""
 
     mensagem_escrita: db "Escreva caracteres: "
     tamanho_escrita: equ $- mensagem_escrita
@@ -10,79 +10,42 @@ section .data
 
 section .text
     global _start
-    
-
-add_new_line:
-    lea rsi,[array + rcx]
-    mov rax, 1 ;Código da syscall write
-    mov rdx, 1
-    mov rdi, 1
-
-    syscall
-
 
 _start:
-    mov rcx, 0;Quantidade de bytes que serão iterados no array
-    mov rax, 0
-   
-.loop:
-    mov rax, rcx
-    lea rsi, [array + rax] ;Rsi obtém o endereço do primeiro elemento do array + rbx
-    
-    add rcx, 1
+    mov rcx, 3;Quantidade de bytes que serão iterados no array
+    mov rax, -1
 
-    ;Coloca o valor de rbx e rcx no topo da pilha
-    push rax
-    push rcx
+    call .escrever_no_array
 
-    mov rax, 1 ;Código da syscall write
-    mov rdx, 1
-    mov rdi, 1
+    ;Finaliza o programa
+    mov rax, 60
+    xor rdi, rdi
     syscall
 
-    ;Tira o valor de rcx e rbx da pilha
-    pop rcx 
+.escrever_no_array:
+    inc rax
+    push rcx
     push rsi
-    call add_new_line
 
-    pop rax
+    push rax
+    sys_print tamanho_escrita, mensagem_escrita
+
+    mov rax, 0 ;Código syscall read
+    mov rdi, 0 
+    lea rsi, [array + rax]
+    mov rdx, 1
+    syscall
+
+    sys_print 1, rsi
+
     pop rsi
+    pop rcx
+    pop rax
 
-    ;Se as iterações não acabaram continua no loop
-    cmp rcx, 0 
-    jnz .loop
+    cmp rcx, rax
+    jne .escrever_no_array
 
-; .escrever_no_array:
-;     push rax
-;     push rcx
-;     push rsi
-
-;     mov rax, 1 
-;     mov rdi, 1
-;     mov rsi, mensagem_escrita
-;     mov rdx, tamanho_escrita
-;     syscall
-
-;     mov rax, 0 ;Código syscall read
-;     mov rdi, 0 
-;     lea rsi, [array + 12]
-;     mov rdx, 2
-;     syscall
-
-;     mov rax, 1
-;     mov rdi, 1
-;     mov rdx, 2
-;     syscall
-
-;     pop rsi
-;     pop rcx
-;     pop rax
-
-;     ;Finaliza o programa
-;     mov rax, 60
-;     xor rdi, rdi
-;     syscall
-
+    ret
 
 
 
