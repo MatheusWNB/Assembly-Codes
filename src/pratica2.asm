@@ -1,4 +1,5 @@
 %include "macros.asm"
+
 section .data
     array: db ""
 
