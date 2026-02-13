@@ -1,13 +1,14 @@
-%include "macros.asm"
+%include "include.asm"
 
 section .data
-    array: db ""
-
     mensagem_escrita: db "Escreva caracteres: "
     tamanho_escrita: equ $- mensagem_escrita
 
     new_line: db 0xa
     end_byte: db 0x0
+
+section .bss
+    array resb 10
 
 section .text
     global _start
@@ -24,7 +25,7 @@ _start:
     syscall
 
 .escrever_no_array:
-    inc rax
+    add rax, 2
     push rcx
     push rsi
 
@@ -34,14 +35,16 @@ _start:
     mov rax, 0 ;Código syscall read
     mov rdi, 0 
     lea rsi, [array + rax]
-    mov rdx, 1
+    mov rdx, 3
     syscall
 
-    sys_print 1, rsi
+    sys_print 3, rsi
 
     pop rsi
     pop rcx
     pop rax
+
+    sys_print 1, new_line
 
     cmp rcx, rax
     jne .escrever_no_array
