@@ -26,7 +26,16 @@ loop_strlen:
 
     jmp loop_strlen
 
+inc_rcx:
+    test rbx, rbx
+    jz loop
+
+    add rcx, 4
+
+    dec rbx
+
 loop:
+    call inc_rcx
     lea rsi, [rel codes]
     push rax
     sub rcx, 4
@@ -45,7 +54,9 @@ loop:
 
     pop_ rcx, rsi, rax
 
-    test rcx, rcx
+    dec rbx
+
+    test rbx, rbx
     jnz loop
 
     jmp end

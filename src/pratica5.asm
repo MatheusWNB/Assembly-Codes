@@ -1,6 +1,8 @@
 %include "include.asm"
 section .data
-    string: db "Matheus", 0
+    string: db "fwfwefwefw", 0
+    msg: db "Len: ", 0
+    len_msg: equ $- msg
 
 section .text
     global _start
@@ -11,9 +13,15 @@ _start:
     mov rax, 0
 
     call loop_strlen
-    newline
 
-    mov rax, rdi
+    push rax
+    newline
+    sys_print len_msg, msg
+    pop rax
+    
+    mov rbx, 2
+    call loop
+    newline
 
     mov rax, 60
     xor rdi, rdi
