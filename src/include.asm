@@ -16,11 +16,11 @@ loop_strlen:
 
     lea rsi, [rdi + rax]
 
-    push_registers rax, rcx, rdi
+    push_ rax, rcx, rdi
 
     sys_print 1, rsi
 
-    pop_registers rdi, rcx, rax
+    pop_ rdi, rcx, rax
 
     inc rax
 
@@ -28,24 +28,24 @@ loop_strlen:
 
 loop:
     lea rsi, [rel codes]
-    push rax
+    push_ rax
     sub rcx, 4
     sar rax, cl
     and rax, 0xf
 
-    push rsi
+    push_ rsi
     lea rsi, [rsi + rax]
 
-    push rcx
+    push_ rcx
 
     mov rax, 1
     mov rdi, 1
 
     sys_print 1, rsi
 
-    pop rcx
-    pop rsi
-    pop rax
+    pop_ rcx
+    pop_ rsi
+    pop_ rax
 
     test rcx, rcx
     jnz loop

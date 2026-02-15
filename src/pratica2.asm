@@ -26,10 +26,10 @@ _start:
 
 .escrever_no_array:
     add rax, 2
-    push rcx
-    push rsi
+    push_ rcx
+    push_ rsi
 
-    push rax
+    push_ rax
     sys_print tamanho_escrita, mensagem_escrita
 
     mov rax, 0 ;Código syscall read
@@ -40,9 +40,9 @@ _start:
 
     sys_print 3, rsi
 
-    pop rsi
-    pop rcx
-    pop rax
+    pop_ rsi
+    pop_ rcx
+    pop_ rax
 
     sys_print 1, new_line
 
