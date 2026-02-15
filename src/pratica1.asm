@@ -11,6 +11,7 @@ _start:
     mov rcx, 64
 
     call loop
+    newline
 
     exit_code
 

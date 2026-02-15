@@ -11,6 +11,7 @@ _start:
     mov rax, 0
 
     call loop_strlen
+    newline
 
     mov rax, rdi
 

@@ -28,24 +28,22 @@ loop_strlen:
 
 loop:
     lea rsi, [rel codes]
-    push_ rax
+    push rax
     sub rcx, 4
     sar rax, cl
     and rax, 0xf
 
-    push_ rsi
+    push rsi
     lea rsi, [rsi + rax]
 
-    push_ rcx
+    push rcx
 
     mov rax, 1
     mov rdi, 1
 
     sys_print 1, rsi
 
-    pop_ rcx
-    pop_ rsi
-    pop_ rax
+    pop_ rcx, rsi, rax
 
     test rcx, rcx
     jnz loop
