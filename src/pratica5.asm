@@ -18,6 +18,8 @@ _start:
     newline
     sys_print len_msg, msg
     pop rax
+
+    print_len
     
     mov rbx, 2
     call loop
