@@ -6,9 +6,7 @@ section .data
 section .text
     global loop_strlen
     global loop
-
-section .bss
-    strlen: resb 3
+    global loop_div
 
 end:
     ret
@@ -26,21 +24,26 @@ loop_strlen:
     inc rax
     jmp loop_strlen
 
+loop_div:
+    xor rdx, rdx
+    div rbx
 
-/*
-Implementar conversão de hex pra dec:
-Divide o número por 10, pega o resto e converte pra código ascii
-Continua a divisão com o quociente até o resto ser zero
-*/
+    test rax, rax
+    jz loop_print_div
 
-print_len:
-    mov strlen, rax
-    lea rsi, [rel strlen]
+    push rdx
+    inc rcx
+    jmp loop_div
 
-    sys_print 3, rsi
+loop_print_div:
+    test rcx, rcx
+    jz end
 
-    jmp end
+    pop rdx
+    lea rsi, [codes + rdx]
+    sys_print 1, rsi
 
+    dec rcx
 
 loop:
     lea rsi, [rel codes]
