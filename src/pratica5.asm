@@ -1,4 +1,4 @@
-%include "include.asm"
+%include "macros.asm"
 section .data
     string: db "fwfwefwefw", 0
     msg: db "Len: ", 0
@@ -7,6 +7,7 @@ section .data
 section .text
     global _start
     extern loop_strlen
+    extern loop_div
 
 _start:
     lea rdi, [rel string]
@@ -19,12 +20,10 @@ _start:
     sys_print len_msg, msg
     pop rax
 
-    print_len
+    xor rcx, rcx
+    mov rbx, 10
+    call loop_div
     
-    mov rbx, 2
-    call loop
-    newline
-
     mov rax, 60
     xor rdi, rdi
     syscall
