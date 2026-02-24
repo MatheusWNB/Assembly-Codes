@@ -41,7 +41,10 @@ loop_print_div:
 
     pop rdx
     lea rsi, [codes + rdx]
+
+    push rcx
     sys_print 1, rsi
+    pop rcx
 
     dec rcx
 
