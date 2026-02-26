@@ -8,6 +8,7 @@ section .text
     global _start
     extern loop_strlen
     extern loop_div
+    extern print_char
 
 _start:
     lea rdi, [rel string]
@@ -23,7 +24,11 @@ _start:
     xor rcx, rcx
     mov rbx, 10
     call loop_div
-    newline
+
+    mov rdi, 65
+    call print_char
+    mov rdi, 10
+    call print_char
     
     mov rax, 60
     xor rdi, rdi
