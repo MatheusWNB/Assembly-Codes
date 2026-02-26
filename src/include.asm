@@ -28,17 +28,17 @@ loop_div:
     xor rdx, rdx
     div rbx
 
+    inc rcx
+    push rdx
+
     test rax, rax
     jz loop_print_div
 
-    push rdx
-    inc rcx
     jmp loop_div
 
 loop_print_div:
     test rcx, rcx
     jz end
-
     pop rdx
     lea rsi, [codes + rdx]
 
@@ -47,6 +47,7 @@ loop_print_div:
     pop rcx
 
     dec rcx
+    jmp loop_print_div
 
 loop:
     lea rsi, [rel codes]
