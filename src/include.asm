@@ -7,9 +7,24 @@ section .text
     global loop_strlen
     global loop
     global loop_div
+    global print_char
 
 end:
     ret
+
+;Function to print a char
+print_char:
+    sub rsp, 1
+    mov [rsp], dil 
+
+    mov rax, 1
+    mov rdi, 1
+    mov rdx, 1
+    mov rsi, rsp
+    syscall
+
+    add rsp, 1
+    jmp end
 
 ;Stores the string size in "rax"
 loop_strlen:
