@@ -11,6 +11,7 @@ section .text
 end:
     ret
 
+;Stores the string size in "rax"
 loop_strlen:
     cmp byte[rdi + rax], 0
     je end
@@ -24,6 +25,7 @@ loop_strlen:
     inc rax
     jmp loop_strlen
 
+;Divide the numbers stored in "rax" to obtain the decimal size of the string.
 loop_div:
     xor rdx, rdx
     div rbx
@@ -36,6 +38,7 @@ loop_div:
 
     jmp loop_div
 
+;Print the decimal size of the string stored in "rdx"
 loop_print_div:
     test rcx, rcx
     jz end
@@ -49,6 +52,7 @@ loop_print_div:
     dec rcx
     jmp loop_print_div
 
+;Loop to print numbers
 loop:
     lea rsi, [rel codes]
     push rax
