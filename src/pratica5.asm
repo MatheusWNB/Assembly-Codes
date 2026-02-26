@@ -1,6 +1,6 @@
 %include "macros.asm"
 section .data
-    string: db "fwfwefwefw", 0
+    string: db "MatheusWNB", 0
     msg: db "Len: ", 0
     len_msg: equ $- msg
 
@@ -23,6 +23,7 @@ _start:
     xor rcx, rcx
     mov rbx, 10
     call loop_div
+    newline
     
     mov rax, 60
     xor rdi, rdi
