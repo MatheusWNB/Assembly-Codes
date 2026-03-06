@@ -2,12 +2,14 @@
 ;Useful codes that will be used many times in programs.
 section .data
     codes: db '0123456789abcdef'
+    less: db "-"
 
 section .text
     global loop_strlen
     global loop
     global loop_div
     global print_char
+    global print_int
 
 end:
     ret
@@ -24,7 +26,7 @@ print_char:
     syscall
 
     add rsp, 1
-    jmp end
+    ret
 
 ;Stores the string size in "rax"
 loop_strlen:
@@ -51,6 +53,18 @@ loop_div:
     test rax, rax
     jz loop_print_div
 
+    jmp loop_div
+
+
+print_int:
+    mov rdi, [rel less]
+    push rax
+    call print_char
+
+    pop rax
+    neg rax
+    mov rbx, 10
+    xor rcx, rcx
     jmp loop_div
 
 ;Print the decimal size of the string stored in "rdx"
