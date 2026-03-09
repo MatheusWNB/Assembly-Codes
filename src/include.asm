@@ -45,6 +45,7 @@ loop_strlen:
 ;Test if int in rax is signed or unsigned
 cmp_int:
     mov rdi, [rel less]
+    xor rcx, rcx
     cmp rax, 0
     jg loop_div
 
