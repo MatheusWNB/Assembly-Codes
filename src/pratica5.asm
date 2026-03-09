@@ -3,14 +3,14 @@ section .data
     string: db "MatheusWNB", 0
     msg: db "Len: ", 0
     len_msg: equ $- msg
-    uint: dd -3455
+    uint: dd 5555
 
 section .text
     global _start
     extern loop_strlen
     extern loop_div
     extern print_char
-    extern print_int
+    extern cmp_int
 
 _start:
     lea rdi, [rel string]
@@ -33,6 +33,6 @@ _start:
     call print_char
 
     movsx rax, dword [rel uint]
-    call print_int
+    call cmp_int
 
     exit_code

@@ -9,7 +9,7 @@ section .text
     global loop
     global loop_div
     global print_char
-    global print_int
+    global cmp_int
 
 end:
     ret
@@ -42,6 +42,21 @@ loop_strlen:
     inc rax
     jmp loop_strlen
 
+;Test if int in rax is signed or unsigned
+cmp_int:
+    mov rdi, [rel less]
+    cmp rax, 0
+    jg loop_div
+
+    push rax
+    call print_char
+    pop rax
+    neg rax
+
+    mov rbx, 10
+    xor rcx, rcx
+    jmp loop_div
+
 ;Divide the numbers stored in "rax" to obtain the decimal size of the string.
 loop_div:
     xor rdx, rdx
@@ -55,17 +70,6 @@ loop_div:
 
     jmp loop_div
 
-
-print_int:
-    mov rdi, [rel less]
-    push rax
-    call print_char
-
-    pop rax
-    neg rax
-    mov rbx, 10
-    xor rcx, rcx
-    jmp loop_div
 
 ;Print the decimal size of the string stored in "rdx"
 loop_print_div:
