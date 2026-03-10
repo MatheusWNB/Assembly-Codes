@@ -3,6 +3,7 @@
 section .data
     codes: db '0123456789abcdef'
     less: db "-"
+    char: db "", 0
 
 section .text
     global loop_strlen
@@ -10,6 +11,7 @@ section .text
     global loop_div
     global print_char
     global cmp_int
+    global getchar
 
 end:
     ret
@@ -27,6 +29,19 @@ print_char:
 
     add rsp, 1
     ret
+    
+;Function to get a char from stdin and print it
+getchar:
+    mov rax, 0
+    mov rdi, 0
+    mov rdx, 1
+    mov rsi, [rel char]
+    syscall
+
+    mov rdi, [rel char]
+    jmp print_char
+
+    jmp end
 
 ;Stores the string size in "rax"
 loop_strlen:
