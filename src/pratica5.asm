@@ -11,6 +11,7 @@ section .text
     extern loop_div
     extern print_char
     extern cmp_int
+    extern getchar
 
 _start:
     lea rdi, [rel string]
@@ -26,6 +27,9 @@ _start:
     xor rcx, rcx
     mov rbx, 10
     call loop_div
+    newline
+
+    call getchar
 
     mov rdi, 65
     call print_char
