@@ -12,9 +12,41 @@ section .text
     global print_char
     global cmp_int
     global getchar
+    global strcmp
 
 end:
     ret
+
+return_1:
+    mov rdi, 49
+    ret
+
+return_0:
+    mov rdi, 48
+    ret
+
+;Function that compares two strings based on
+;the length of the first string
+strcmp:
+    cmp rdx, rcx
+    je return_0
+
+    push rdi
+    lea rdi, [rdi + rcx]
+    push rsi
+    lea rsi, [rsi + rcx]
+
+    mov al, byte [rdi]
+    mov bl, byte [rsi]
+
+    pop rsi
+    pop rdi
+
+    cmp al, bl
+    jne return_1
+
+    inc rcx
+    jmp strcmp
 
 ;Function to print a char
 print_char:
@@ -127,10 +159,3 @@ loop:
     jnz loop
 
     jmp end
-
-    
-
-
-
-
-
